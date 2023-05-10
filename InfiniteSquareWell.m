@@ -1,63 +1,61 @@
-% SCRIPT PARA SIMULAR LA EVOLUCIÓN TEMPORAL DE LA FUNCIÓN DE ONDA EN UN
-% POZO INFINITO DE POTENCIAL
+% SCRIPT TO SIMULATE THE TIME EVOLUTION OF WAVEFUNCTION
+% OF A PARTICLE IN AN INFINITE SQUARE WELL POTENTIAL
 
 clearvars
 close all
 
-% definición de constantes
+% constants
 m = 1; % masa del electrón (9.1e-31 kg)
 a = 1; % ancho del pozo (1e-9 m);
 A = sqrt(2/a); % constante de normalización de psi
 hbar = 1; % constante de Planck (6.626e-34 J s);
 
-% posiciones
+% positions
 x = linspace(0,a,500);
 
-% estados estacionarios del pozo infinito
+% stationary states of infinite square well
 psi1 = A*sin(pi/a*x);
 psi2 = A*sin(2*pi/a*x);
-% psi3 = A*sin(3*pi/a*x);
-% etc... se pueden agregar los que se quieran
+% and so on... add all you want in the form psin = A*sin(n*pi/a*x)
 
-% autovalores de las energías de estados estacionarios
+% energy eigenvalues of stationary states
 E1 = 1^2*pi^2*hbar^2/2/m/a^2;
 E2 = 2^2*pi^2*hbar^2/2/m/a^2;
-% E3 = 3^2*pi^2*hbar^2/2/m/a^2;
-% etc... se pueden agregar las que se quieran
+% and so on... add all you want in the form En = n^2pi^2*hbar^2/2/m/a^2
 
-% coeficientes del desarrollo del estado inicial Psi(x,0) = sum c_i psi_i
+% coefficients of the expansion for the initial wavefunction, Psi(x,0) = sum c_i psi_i
 c1 = 1/sqrt(2);
 c2 = sqrt(1 - c1^2);
-% c3 = se pueden agregar más con la condición sum c_i^2 = 1
+% add all you want but keeping in mind normalization, i.e. that sum |c_i|^2 = 1
 
-% estado inicial Psi(x,0)
+% initial state, Psi(x,0)
 psi0 = c1*psi1.*exp(-1i*E1/hbar)+c2*psi2.*exp(-1i*E2/hbar);
 
-% gráfico del estado inicial
+% plot of initial state
 figure,
-h1 = plot(x,real(psi0));                        % parte real
+h1 = plot(x,real(psi0));                        % real part plot
 hold on
-h2 = plot(x,imag(psi0));                        % parte imaginaria
-h3 = plot(x,conj(psi0).*psi0,'LineWidth',2);    % módulo cuadrado
-xlim([0 a])                                     % rango de x
-xticks([0 a/4 a/2 3*a/4 a])
-xticklabels({'0','a/4','a/2','3a/4','a'})       % etiquetas de x
-ylim([-2 3.5])                                  % rango de y
-legend('Re(\Psi)','Im(\Psi)','|\Psi|^2')                % leyenda
-yticks('auto')
-% ylabel('Re(Psi), Im(Psi), |Psi|^2')             % etiquetas de y
+h2 = plot(x,imag(psi0));                        % imaginary part plot
+h3 = plot(x,conj(psi0).*psi0,'LineWidth',2);    % square modulus plot
+xlim([0 a])                                     % range for x axis
+xticks([0 a/4 a/2 3*a/4 a])                     % add some ticks for x axis
+xticklabels({'0','a/4','a/2','3a/4','a'})       % add some labels for x axis
+ylim([-2 3.5])                                  % range for y axis
+legend('Re(\Psi)','Im(\Psi)','|\Psi|^2')        % add legend
+yticks('auto')                                  % add auto ticks for y axis
+% ylabel('Re(Psi), Im(Psi), |Psi|^2')             % add some labels for y axis
 
-tfin = 10; % tiempo de simulación
-dt = 0.01; % paso de tiempo
+tfin = 10; % simulation time
+dt = 0.01; % timestep
 
 for t = 0:dt:tfin
-    % estado Psi(x,t)
+    % Psi(x,t) state
     psi = c1*psi1.*exp(-1i*E1*t/hbar)+c2*psi2.*exp(-1i*t*E2/hbar);
-    h1.YData = real(psi);       % parte real
-    h2.YData = imag(psi);       % parte imaginaria
-    h3.YData = conj(psi).*psi;  % módulo cuadrado
+    h1.YData = real(psi);       % update real part plot
+    h2.YData = imag(psi);       % update imaginary part plot
+    h3.YData = conj(psi).*psi;  % update squared modulus plot
     
-    refreshdata                 % refresca el gráfico
-    drawnow                     % ídem
-    pause(0.01)                 % pausa breve para visualización
+    refreshdata                 % refresh plots
+    drawnow                     % draw and show
+    pause(0.01)                 % pause for visualization
 end
