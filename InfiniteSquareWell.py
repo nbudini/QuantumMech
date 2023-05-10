@@ -27,21 +27,23 @@ c1 = 1/np.sqrt(2)
 c2 = np.sqrt(1 - c1**2)
 
 # time evolution
+t = 0     # init time
 tsim = 10 # simulation time 
 dt = 0.01 # timestep
 while t <= tsim:
     # Psi(x,t)
     psi = c1*psi1*np.exp(-1j*E1*t/hbar) + c2*psi2*np.exp(-1j*E2*t/hbar)
 
-    plt.plot(np.real(psi))    # plot real part of wavefunction
-    plt.plot(np.imag(psi))    # plot imaginary part of wavefunction
-    plt.plot(np.abs(psi)**2)  # plot square modulus of wavefunction
+    plt.plot(np.real(psi),label='Re$(\Psi)$')    # plot real part of wavefunction
+    plt.plot(np.imag(psi),label='Im$(\Psi)$')    # plot imaginary part of wavefunction
+    plt.plot(np.abs(psi)**2,label='$|\Psi|^2$')  # plot square modulus of wavefunction
     
     plt.xlim(0,len(psi)) # set x limits
     plt.ylim(-2,3.5)     # set y limites
 
     # draw, (save if wanted), pause, clear
     plt.draw()
+    plt.legend()
     # plt.savefig(str(round(t*100))+'.png')
     plt.pause(0.1)
     plt.clf()
