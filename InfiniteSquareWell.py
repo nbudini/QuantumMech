@@ -45,7 +45,7 @@ while t <= tsim:
     plt.draw()
     plt.legend()
     # plt.savefig(str(round(t*100))+'.png')
-    plt.pause(0.1)
+    plt.pause(tsim/100)
     plt.clf()
     
     # advance time
