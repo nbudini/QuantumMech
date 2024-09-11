@@ -1,38 +1,52 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Sep 10 17:54:42 2024
-
-@author: nico
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define k from 2 to 200 with step size 2 (even numbers)
-# odd values of k result in coeff = 0
-k = np.arange(2, 201, 2)
+# tomando n = 1
+ncoef = 20
+k = np.arange(2, ncoef, 2)  # los k impares dan coef = 0
+Hpkn = np.sin((k-1)/2*np.pi)/(k-1) - np.sin((k+1)/2*np.pi)/(k+1)  # elementos H'
 
-# Calculate H'kn values
-Hpkn = np.sin((k - 1) / 2 * np.pi) / (k - 1) - np.sin((k + 1) / 2 * np.pi) / (k + 1)
-
-# Plot H'kn values
+# se muestran los sucesivos valores de H'_k1
 plt.figure()
 plt.plot(k, Hpkn, '-*')
-plt.xlim([0, 100])
-plt.xlabel("k")
-plt.ylabel("<k⁰|H'|1⁰>")
+plt.xlim([0, ncoef])
+plt.xlabel('k')
+plt.ylabel('<k⁰|Hp|1⁰>')
 plt.show()
 
-# Compute the sum of |Hpkn|² / (1 - k²) up to each value of k
-suma = np.zeros(len(Hpkn))
+suma = []
+# se calcula la suma de |H'k1|²/(1-k²) hasta cada valor de k
 for i in range(len(Hpkn)):
-    suma[i] = np.sum(Hpkn[:i+1]**2 / (1 - k[:i+1]**2))
+    suma.append(np.sum(Hpkn[:i+1]**2 / (1 - k[:i+1]**2)))
+    print(f"coef: {Hpkn[i]**2 / (1 - k[i]**2)} - suma: {suma[i]}")
 
-# Evolution of the sum
+# se muestra la evolución de la suma
 plt.figure()
 plt.plot(k, suma)
-plt.xlim([0, 50])
-plt.xlabel("k")
-plt.ylabel("suma")
+plt.xlabel('k')
+plt.ylabel('suma')
+plt.show()
+
+# tomando n = 2
+k = np.arange(1, ncoef, 2)  # los k pares dan coef = 0
+Hpkn = np.sin((k-2)/2*np.pi)/(k-2) - np.sin((k+2)/2*np.pi)/(k+2)  # elementos H'
+
+# se muestran los sucesivos valores de H'_k1
+plt.figure()
+plt.plot(k, Hpkn, '-*')
+plt.xlabel('k')
+plt.ylabel('<k⁰|Hp|2⁰>')
+plt.show()
+
+suma = []
+# se calcula la suma de |H'k2|²/(4-k²) hasta cada valor de k
+for i in range(len(Hpkn)):
+    suma.append(np.sum(Hpkn[:i+1]**2 / (4 - k[:i+1]**2)))
+    print(f"coef: {Hpkn[i]**2 / (4 - k[i]**2)} - suma: {suma[i]}")
+
+# se muestra la evolución de la suma
+plt.figure()
+plt.plot(k, suma)
+plt.xlabel('k')
+plt.ylabel('suma')
 plt.show()
