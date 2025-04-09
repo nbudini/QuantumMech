@@ -29,7 +29,7 @@ c2 = sqrt(1 - c1^2);
 % add all you want but keeping in mind normalization, i.e. that sum |c_i|^2 = 1
 
 % initial state, Psi(x,0)
-psi0 = c1*psi1.*exp(-1i*E1/hbar)+c2*psi2.*exp(-1i*E2/hbar);
+psi0 = c1*psi1+c2*psi2;
 
 % plot of initial state
 figure,
